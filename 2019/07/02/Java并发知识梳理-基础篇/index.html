@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Java并发知识梳理-基础篇 | wanghui&#39;s blogs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Java并发知识梳理-基础篇1.并发编程的优缺点（1）为什么要用到并发? 多核的CPU的背景下，催生了并发编程的趋势，通过并发编程的形式可以将多核CPU的计算能力发挥到极致，性能得到提升。——充分利用多核CPU的计算能力。 面对复杂的业务模型，并行程序会比串行程序更适应业务需求，而并发编程更能吻合这种业务拆分。——方便进行业务拆分，提升应用性能。  （2）并发编程有哪些缺点2.1 频繁的上下文切换">
+  <meta name="description" content="1.并发编程的优缺点（1）为什么要用到并发? 多核的CPU的背景下，催生了并发编程的趋势，通过并发编程的形式可以将多核CPU的计算能力发挥到极致，性能得到提升。——充分利用多核CPU的计算能力。 面对复杂的业务模型，并行程序会比串行程序更适应业务需求，而并发编程更能吻合这种业务拆分。——方便进行业务拆分，提升应用性能。  （2）并发编程有哪些缺点2.1 频繁的上下文切换每次切换线程都需要保存当前状">
 <meta name="keywords" content="java并发">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java并发知识梳理-基础篇">
 <meta property="og:url" content="http://yoursite.com/2019/07/02/Java并发知识梳理-基础篇/index.html">
 <meta property="og:site_name" content="wanghui&#39;s blogs">
-<meta property="og:description" content="Java并发知识梳理-基础篇1.并发编程的优缺点（1）为什么要用到并发? 多核的CPU的背景下，催生了并发编程的趋势，通过并发编程的形式可以将多核CPU的计算能力发挥到极致，性能得到提升。——充分利用多核CPU的计算能力。 面对复杂的业务模型，并行程序会比串行程序更适应业务需求，而并发编程更能吻合这种业务拆分。——方便进行业务拆分，提升应用性能。  （2）并发编程有哪些缺点2.1 频繁的上下文切换">
+<meta property="og:description" content="1.并发编程的优缺点（1）为什么要用到并发? 多核的CPU的背景下，催生了并发编程的趋势，通过并发编程的形式可以将多核CPU的计算能力发挥到极致，性能得到提升。——充分利用多核CPU的计算能力。 面对复杂的业务模型，并行程序会比串行程序更适应业务需求，而并发编程更能吻合这种业务拆分。——方便进行业务拆分，提升应用性能。  （2）并发编程有哪些缺点2.1 频繁的上下文切换每次切换线程都需要保存当前状">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-02T09:37:30.059Z">
+<meta property="og:updated_time" content="2019-07-02T09:44:35.668Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java并发知识梳理-基础篇">
-<meta name="twitter:description" content="Java并发知识梳理-基础篇1.并发编程的优缺点（1）为什么要用到并发? 多核的CPU的背景下，催生了并发编程的趋势，通过并发编程的形式可以将多核CPU的计算能力发挥到极致，性能得到提升。——充分利用多核CPU的计算能力。 面对复杂的业务模型，并行程序会比串行程序更适应业务需求，而并发编程更能吻合这种业务拆分。——方便进行业务拆分，提升应用性能。  （2）并发编程有哪些缺点2.1 频繁的上下文切换">
+<meta name="twitter:description" content="1.并发编程的优缺点（1）为什么要用到并发? 多核的CPU的背景下，催生了并发编程的趋势，通过并发编程的形式可以将多核CPU的计算能力发挥到极致，性能得到提升。——充分利用多核CPU的计算能力。 面对复杂的业务模型，并行程序会比串行程序更适应业务需求，而并发编程更能吻合这种业务拆分。——方便进行业务拆分，提升应用性能。  （2）并发编程有哪些缺点2.1 频繁的上下文切换每次切换线程都需要保存当前状">
   
     <link rel="alternative" href="/atom.xml" title="wanghui&#39;s blogs" type="application/atom+xml">
   
@@ -175,7 +175,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="Java并发知识梳理-基础篇"><a href="#Java并发知识梳理-基础篇" class="headerlink" title="Java并发知识梳理-基础篇"></a>Java并发知识梳理-基础篇</h3><h4 id="1-并发编程的优缺点"><a href="#1-并发编程的优缺点" class="headerlink" title="1.并发编程的优缺点"></a>1.并发编程的优缺点</h4><h5 id="（1）为什么要用到并发"><a href="#（1）为什么要用到并发" class="headerlink" title="（1）为什么要用到并发?"></a>（1）为什么要用到并发?</h5><ul>
+        <h4 id="1-并发编程的优缺点"><a href="#1-并发编程的优缺点" class="headerlink" title="1.并发编程的优缺点"></a>1.并发编程的优缺点</h4><h5 id="（1）为什么要用到并发"><a href="#（1）为什么要用到并发" class="headerlink" title="（1）为什么要用到并发?"></a>（1）为什么要用到并发?</h5><ul>
 <li>多核的CPU的背景下，催生了并发编程的趋势，通过并发编程的形式可以将多核CPU的计算能力发挥到极致，性能得到提升。——充分利用多核CPU的计算能力。</li>
 <li>面对复杂的业务模型，并行程序会比串行程序更适应业务需求，而并发编程更能吻合这种业务拆分。——方便进行业务拆分，提升应用性能。</li>
 </ul>
