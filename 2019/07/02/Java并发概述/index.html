@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html lang class="loading">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Java并发概述 - wanghui&#39;s blogs</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="1.并发编程的优缺点（1）为什么要用到并发?
+多核的CPU的背景下，催生了并发编程的趋势，通过并发编程的形式可以将多核CPU的计算能力发挥到极致，性能得到提升。——充分利用多核CPU的计算能力。
+面,"> 
+    <meta name="author" content="wanghui"> 
+    <link rel="alternative" href="atom.xml" title="wanghui&#39;s blogs" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+</head>
+</html>
+<body class="loading">
+    <span id="config-title" style="display:none">wanghui&#39;s blogs</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;" data-url="http://yoursite.com"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">Java并发概述</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">Java并发概述</h1>
+        <div class="stuff">
+            <span>七月 02, 2019</span>
+            
+  <ul class="post-tags-list"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/java并发/">java并发</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h4 id="1-并发编程的优缺点"><a href="#1-并发编程的优缺点" class="headerlink" title="1.并发编程的优缺点"></a>1.并发编程的优缺点</h4><h5 id="（1）为什么要用到并发"><a href="#（1）为什么要用到并发" class="headerlink" title="（1）为什么要用到并发?"></a>（1）为什么要用到并发?</h5><ul>
+<li>多核的CPU的背景下，催生了并发编程的趋势，通过并发编程的形式可以将多核CPU的计算能力发挥到极致，性能得到提升。——充分利用多核CPU的计算能力。</li>
+<li>面对复杂的业务模型，并行程序会比串行程序更适应业务需求，而并发编程更能吻合这种业务拆分。——方便进行业务拆分，提升应用性能。</li>
+</ul>
+<h5 id="（2）并发编程有哪些缺点"><a href="#（2）并发编程有哪些缺点" class="headerlink" title="（2）并发编程有哪些缺点"></a>（2）并发编程有哪些缺点</h5><h6 id="2-1-频繁的上下文切换"><a href="#2-1-频繁的上下文切换" class="headerlink" title="2.1 频繁的上下文切换"></a>2.1 频繁的上下文切换</h6><p>每次切换线程都需要保存当前状态，然后再切换，所以过于频繁的切换非常损耗性能。</p>
+<p>通常减少上下文切换可以采用无锁并发编程，CAS算法，使用最少的线程和协程。</p>
+<ul>
+<li>无锁并发编程：可以参照concurrentHashMap锁分段的思想，不同的线程处理不同段的数据，这样在多线程竞争的条件下，可以减少上下文切换的时间。</li>
+<li>CAS算法，利用Atomic下使用CAS算法来更新数据，使用了乐观锁，可以有效地减少一部分不必要的锁竞争带来的上下文切换。</li>
+<li>使用最少线程：避免创建不需要的线程，比如任务很少，但是创建了很多的线程，这样会导致大量的线程都处于等待状态。</li>
+<li>协程：在单线程里实现多任务的调度，并在单线程里维持多个任务间的切换。</li>
+</ul>
+<h6 id="2-2-线程安全"><a href="#2-2-线程安全" class="headerlink" title="2.2 线程安全"></a>2.2 线程安全</h6><p>多线程编程中最难以把握的就是临界区线程安全问题，稍微不注意就会出现死锁的情况，一旦产生死锁就会造成系统功能不可用。</p>
+<p>通常可以用如下方式避免死锁的情况：</p>
+<p>1.避免一个线程同时获得多个锁。</p>
+<p>2.避免一个线程在锁内部占有多个资源，尽量保证每个锁只占用一个资源。</p>
+<p>3.尝试使用定时锁，使用lock.tryLock(timeOut),当超时等待时当前线程不会阻塞。</p>
+<p>4.对于数据库锁，加锁和解锁必须在一个数据库连接里，否则会出现解锁失败的情况。</p>
+<h5 id="（3）应该了解的概念"><a href="#（3）应该了解的概念" class="headerlink" title="（3）应该了解的概念"></a>（3）应该了解的概念</h5><h6 id="3-1-同步VS异步"><a href="#3-1-同步VS异步" class="headerlink" title="3.1 同步VS异步"></a>3.1 同步VS异步</h6><p>同步和异步通常用来形容一次方法调用。同步指的是方法调用一开始，调用者必须等待被调用的方法结束后，调用者才可以继续往后执行。而异步调用，则没有中间的等待过程，即不管被调用方法是否完成，都会继续往下执行。当被调用的方法完成后会通知调用者。</p>
+<h6 id="3-2-并发与并行"><a href="#3-2-并发与并行" class="headerlink" title="3.2 并发与并行"></a>3.2 并发与并行</h6><p>并发指的是多个任务交替给CPU处理，而并行则是指真正意义上的“同时进行”。真正的并行只能出现在多CPU的系统中。</p>
+<h6 id="3-3-阻塞和非阻塞"><a href="#3-3-阻塞和非阻塞" class="headerlink" title="3.3 阻塞和非阻塞"></a>3.3 阻塞和非阻塞</h6><p>阻塞和非阻塞通常用来形容多线程间的相互影响，比如一个线程占有了临界区资源，那么其它线程需要这个资源就必须等待该资源的释放，会导致等待的线程挂起，这种情况就是阻塞；非阻塞即相反情况，它强调没有一个线程可以阻塞其它线程，所有的线程都会尝试的往前运行。</p>
+<h6 id="3-4-临界区"><a href="#3-4-临界区" class="headerlink" title="3.4 临界区"></a>3.4 临界区</h6><p>临界区用来表示一种共享数据，可以被多个线程使用。但是每个线程在使用临界区的资源时，其它线程就必须等待。</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://link.hhtjim.com/163/5146554.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
