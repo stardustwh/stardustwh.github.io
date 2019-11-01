@@ -188,6 +188,8 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** The current seed for a ThreadLocalRandom */</span></span><br><span class="line"><span class="meta">@sun</span>.misc.Contended(<span class="string">"tlr"</span>)</span><br><span class="line"><span class="keyword">long</span> threadLocalRandomSeed;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Probe hash value; nonzero if threadLocalRandomSeed initialized */</span></span><br><span class="line"><span class="meta">@sun</span>.misc.Contended(<span class="string">"tlr"</span>)</span><br><span class="line"><span class="keyword">int</span> threadLocalRandomProbe;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Secondary seed isolated from public ThreadLocalRandom sequence */</span></span><br><span class="line"><span class="meta">@sun</span>.misc.Contended(<span class="string">"tlr"</span>)</span><br><span class="line"><span class="keyword">int</span> threadLocalRandomSecondarySeed;</span><br></pre></td></tr></table></figure>
 
 <p>​    另外需要注意的是，默认@Contended注解只用于Java核心类，比如rt包下的类。如果用户类路径需要使用这个注解，则需要添加JVM参数：-XX:-RestrictContended。填充的宽度默认为128，要自定义宽度可以设置-XX:ContendedPaddingWidth 参数。</p>
+<hr>
+<p>​                                                            记录学习《java并发编程之美》。</p>
 <p>​    </p>
 
       

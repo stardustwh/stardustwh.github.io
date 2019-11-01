@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="wanghui&#39;s blogs">
 <meta property="og:description" content="1.什么是伪共享​    在CPUCache中是按行存储的，每行的大小一般为2的幂次数字节。当CPU需要某个变量时会先去CPUCache中获取，没有的话再会去主内存中获取，并且会将变量所在主内存区域的一份Cache行的大小的内存复制到CPUCache中。一个Cache行是一个小的内存块，所以可能会出现一个Cache行中有多个变量。这时如果多个线程需要操作一个Cache行中的多个变量，由于Cache">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-11-01T06:21:01.319Z">
+<meta property="og:updated_time" content="2019-11-01T06:24:14.287Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="伪共享">
 <meta name="twitter:description" content="1.什么是伪共享​    在CPUCache中是按行存储的，每行的大小一般为2的幂次数字节。当CPU需要某个变量时会先去CPUCache中获取，没有的话再会去主内存中获取，并且会将变量所在主内存区域的一份Cache行的大小的内存复制到CPUCache中。一个Cache行是一个小的内存块，所以可能会出现一个Cache行中有多个变量。这时如果多个线程需要操作一个Cache行中的多个变量，由于Cache">
@@ -191,6 +191,8 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** The current seed for a ThreadLocalRandom */</span></span><br><span class="line"><span class="meta">@sun</span>.misc.Contended(<span class="string">"tlr"</span>)</span><br><span class="line"><span class="keyword">long</span> threadLocalRandomSeed;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Probe hash value; nonzero if threadLocalRandomSeed initialized */</span></span><br><span class="line"><span class="meta">@sun</span>.misc.Contended(<span class="string">"tlr"</span>)</span><br><span class="line"><span class="keyword">int</span> threadLocalRandomProbe;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Secondary seed isolated from public ThreadLocalRandom sequence */</span></span><br><span class="line"><span class="meta">@sun</span>.misc.Contended(<span class="string">"tlr"</span>)</span><br><span class="line"><span class="keyword">int</span> threadLocalRandomSecondarySeed;</span><br></pre></td></tr></table></figure>
 
 <p>​    另外需要注意的是，默认@Contended注解只用于Java核心类，比如rt包下的类。如果用户类路径需要使用这个注解，则需要添加JVM参数：-XX:-RestrictContended。填充的宽度默认为128，要自定义宽度可以设置-XX:ContendedPaddingWidth 参数。</p>
+<hr>
+<p>​                                                            记录学习《java并发编程之美》。</p>
 <p>​    </p>
 
       
