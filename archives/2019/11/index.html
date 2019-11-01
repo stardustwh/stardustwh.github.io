@@ -6,11 +6,11 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>wanghui&#39;s blogs</title>
+  <title>Archives: 2019/11 | wanghui&#39;s blogs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
 <meta property="og:title" content="wanghui&#39;s blogs">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:url" content="http://yoursite.com/archives/2019/11/index.html">
 <meta property="og:site_name" content="wanghui&#39;s blogs">
 <meta property="og:locale" content="default">
 <meta name="twitter:card" content="summary">
@@ -152,51 +152,34 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-伪共享" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
+  
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/11/01/伪共享/">伪共享</a>
-    </h1>
-  
-
-        
-        <a href="/2019/11/01/伪共享/" class="archive-article-date">
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2019" class="archive-year">2019</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2019/11/01/伪共享/" class="archive-article-date">
   	<time datetime="2019-11-01T03:34:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-01</time>
 </a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h5 id="1-什么是伪共享"><a href="#1-什么是伪共享" class="headerlink" title="1.什么是伪共享"></a>1.什么是伪共享</h5><p>​    在<strong>CPUCache</strong>中是按行存储的，每行的大小一般为2的幂次数字节。当<strong>CPU</strong>需要某个变量时会先去<strong>CPUCache</strong>中获取，没有的话再会去主内存中获取，并且会将变量所在主内存区域的一份<strong>Cache</strong>行的大小的内存复制到<strong>CPUCache</strong>中。一个<strong>Cache</strong>行是一个小的内存块，所以可能会出现一个<strong>Cache</strong>行中有多个变量。这时如果多个线程需要操作一个<strong>Cache</strong>行中的多个变量，由于<strong>Cache</strong>行同时只能被一个线程操作，这时就会有性能问题。这就是<strong>伪共享</strong>。</p>
-<h5 id="2-为何会出现伪共享"><a href="#2-为何会出现伪共享" class="headerlink" title="2.为何会出现伪共享"></a>2.为何会出现伪共享</h5><p>​    多个变量被放入了一个缓存行中，并且多个线程同时去写入缓存行中不同的变量。</p>
-<p>下面借用一个数组的例子说明一下。</p>
-<p>​    代码（1）</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> beautifulconcurrent;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Random;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestForContent</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> LINE_NUM = <span class="number">1024</span>;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> COLUM_NUM = <span class="number">1024</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> [][] array = <span class="keyword">new</span> <span class="keyword">long</span>[LINE_NUM][COLUM_NUM];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> startTime = System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i =<span class="number">0</span>; i&lt;LINE_NUM; ++i) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;COLUM_NUM;++j) &#123;</span><br><span class="line">                array[i][j] = i*<span class="number">2</span>+j;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> endTime = System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">long</span> cacheTime = endTime - startTime;</span><br><span class="line">        System.out.println(<span class="string">"cache time:"</span> + cacheTime);</span><br><span class="line"></span><br><span class="line">        Random random = <span class="keyword">new</span> Random();</span><br><span class="line">        random.nextInt(<span class="number">5</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2019/11/01/伪共享/">伪共享</a>
+    </h1>
+  
 
-<p>​    代码（2）</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> beautifulconcurrent;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestForContent2</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> LINE_NUM = <span class="number">1024</span>;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> COLUM_NUM = <span class="number">1024</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> [][] array = <span class="keyword">new</span> <span class="keyword">long</span>[LINE_NUM][COLUM_NUM];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> startTime = System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i =<span class="number">0</span>; i&lt;COLUM_NUM; ++i) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;LINE_NUM;++j) &#123;</span><br><span class="line">                array[j][i] = i*<span class="number">2</span>+j;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> endTime = System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">long</span> cacheTime = endTime - startTime;</span><br><span class="line">        System.out.println(<span class="string">"no cache time:"</span> + cacheTime);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>​    在我的电脑上多次执行结果都是代码（2）耗时10ms以上，代码（1）在10ms以下。这是因为数组内数组元素的内存地址是连续的，当访问第一个元素时，会把第一个元素后的若干元素一起放入缓存行，这样顺序访问就减少了去主内存读取的次数。因为代码（2）是跳跃式的，这就破坏了这种原则。并且缓存是有容量限制的，缓存满了时会根据淘汰算法替换缓存行，这会导致跳跃式访问的元素还没等到读取就被替换掉了。</p>
-<p>​    所以在单线程下顺序访问一个缓存行的多个变量，性能还会有所提高。而在多线程并发环境访问一个缓存行中的多个变量时，则会产生竞争，从而影响性能。</p>
-<h5 id="3-如何避免伪共享"><a href="#3-如何避免伪共享" class="headerlink" title="3.如何避免伪共享"></a>3.如何避免伪共享</h5><p>​    在JDK8之前一般都是通过字节填充的方式来避免该问题。就是在创建一个变量时使用填充字段填充该变量所在的缓存行，以此来避免多个变量存放在一个缓存行中。</p>
-<p>​    JDK8提供了一个 sun.misc.Contended 注解，用来解决伪共享问题。Thread类中用它来修饰了变量（也可以修饰类)</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** The current seed for a ThreadLocalRandom */</span></span><br><span class="line"><span class="meta">@sun</span>.misc.Contended(<span class="string">"tlr"</span>)</span><br><span class="line"><span class="keyword">long</span> threadLocalRandomSeed;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Probe hash value; nonzero if threadLocalRandomSeed initialized */</span></span><br><span class="line"><span class="meta">@sun</span>.misc.Contended(<span class="string">"tlr"</span>)</span><br><span class="line"><span class="keyword">int</span> threadLocalRandomProbe;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Secondary seed isolated from public ThreadLocalRandom sequence */</span></span><br><span class="line"><span class="meta">@sun</span>.misc.Contended(<span class="string">"tlr"</span>)</span><br><span class="line"><span class="keyword">int</span> threadLocalRandomSecondarySeed;</span><br></pre></td></tr></table></figure>
-
-<p>​    另外需要注意的是，默认@Contended注解只用于Java核心类，比如rt包下的类。如果用户类路径需要使用这个注解，则需要添加JVM参数：-XX:-RestrictContended。填充的宽度默认为128，要自定义宽度可以设置-XX:ContendedPaddingWidth 参数。</p>
-<p>​    </p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -208,354 +191,19 @@
 		</ul>
 	</div>
 
-      
+          
 
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/11/01/伪共享/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
+        </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
-    <article id="post-Java并发概述" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
+  
+    </div></section>
+  
+
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/02/Java并发概述/">Java并发概述</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/02/Java并发概述/" class="archive-article-date">
-  	<time datetime="2019-07-02T09:36:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-并发编程的优缺点"><a href="#1-并发编程的优缺点" class="headerlink" title="1.并发编程的优缺点"></a>1.并发编程的优缺点</h4><h5 id="（1）为什么要用到并发"><a href="#（1）为什么要用到并发" class="headerlink" title="（1）为什么要用到并发?"></a>（1）为什么要用到并发?</h5><ul>
-<li>多核的CPU的背景下，催生了并发编程的趋势，通过并发编程的形式可以将多核CPU的计算能力发挥到极致，性能得到提升。——充分利用多核CPU的计算能力。</li>
-<li>面对复杂的业务模型，并行程序会比串行程序更适应业务需求，而并发编程更能吻合这种业务拆分。——方便进行业务拆分，提升应用性能。</li>
-</ul>
-<h5 id="（2）并发编程有哪些缺点"><a href="#（2）并发编程有哪些缺点" class="headerlink" title="（2）并发编程有哪些缺点"></a>（2）并发编程有哪些缺点</h5><h6 id="2-1-频繁的上下文切换"><a href="#2-1-频繁的上下文切换" class="headerlink" title="2.1 频繁的上下文切换"></a>2.1 频繁的上下文切换</h6><p>每次切换线程都需要保存当前状态，然后再切换，所以过于频繁的切换非常损耗性能。</p>
-<p>通常减少上下文切换可以采用无锁并发编程，CAS算法，使用最少的线程和协程。</p>
-<ul>
-<li>无锁并发编程：可以参照concurrentHashMap锁分段的思想，不同的线程处理不同段的数据，这样在多线程竞争的条件下，可以减少上下文切换的时间。</li>
-<li>CAS算法，利用Atomic下使用CAS算法来更新数据，使用了乐观锁，可以有效地减少一部分不必要的锁竞争带来的上下文切换。</li>
-<li>使用最少线程：避免创建不需要的线程，比如任务很少，但是创建了很多的线程，这样会导致大量的线程都处于等待状态。</li>
-<li>协程：在单线程里实现多任务的调度，并在单线程里维持多个任务间的切换。</li>
-</ul>
-<h6 id="2-2-线程安全"><a href="#2-2-线程安全" class="headerlink" title="2.2 线程安全"></a>2.2 线程安全</h6><p>多线程编程中最难以把握的就是临界区线程安全问题，稍微不注意就会出现死锁的情况，一旦产生死锁就会造成系统功能不可用。</p>
-<p>通常可以用如下方式避免死锁的情况：</p>
-<p>1.避免一个线程同时获得多个锁。</p>
-<p>2.避免一个线程在锁内部占有多个资源，尽量保证每个锁只占用一个资源。</p>
-<p>3.尝试使用定时锁，使用lock.tryLock(timeOut),当超时等待时当前线程不会阻塞。</p>
-<p>4.对于数据库锁，加锁和解锁必须在一个数据库连接里，否则会出现解锁失败的情况。</p>
-<h5 id="（3）应该了解的概念"><a href="#（3）应该了解的概念" class="headerlink" title="（3）应该了解的概念"></a>（3）应该了解的概念</h5><h6 id="3-1-同步VS异步"><a href="#3-1-同步VS异步" class="headerlink" title="3.1 同步VS异步"></a>3.1 同步VS异步</h6><p>同步和异步通常用来形容一次方法调用。同步指的是方法调用一开始，调用者必须等待被调用的方法结束后，调用者才可以继续往后执行。而异步调用，则没有中间的等待过程，即不管被调用方法是否完成，都会继续往下执行。当被调用的方法完成后会通知调用者。</p>
-<h6 id="3-2-并发与并行"><a href="#3-2-并发与并行" class="headerlink" title="3.2 并发与并行"></a>3.2 并发与并行</h6><p>并发指的是多个任务交替给CPU处理，而并行则是指真正意义上的“同时进行”。真正的并行只能出现在多CPU的系统中。</p>
-<h6 id="3-3-阻塞和非阻塞"><a href="#3-3-阻塞和非阻塞" class="headerlink" title="3.3 阻塞和非阻塞"></a>3.3 阻塞和非阻塞</h6><p>阻塞和非阻塞通常用来形容多线程间的相互影响，比如一个线程占有了临界区资源，那么其它线程需要这个资源就必须等待该资源的释放，会导致等待的线程挂起，这种情况就是阻塞；非阻塞即相反情况，它强调没有一个线程可以阻塞其它线程，所有的线程都会尝试的往前运行。</p>
-<h6 id="3-4-临界区"><a href="#3-4-临界区" class="headerlink" title="3.4 临界区"></a>3.4 临界区</h6><p>临界区用来表示一种共享数据，可以被多个线程使用。但是每个线程在使用临界区的资源时，其它线程就必须等待。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">java并发</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/02/Java并发概述/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-学习建议" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/27/学习建议/">学习建议</a>
-    </h1>
-  
-
-        
-        <a href="/2019/06/27/学习建议/" class="archive-article-date">
-  	<time datetime="2019-06-27T07:54:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h5 id="1-健康生活"><a href="#1-健康生活" class="headerlink" title="1.健康生活"></a>1.健康生活</h5><ul>
-<li>不到万不得已，不要熬夜，11点之前睡觉。熬夜的危害——&gt;秃头加内分泌失调。</li>
-<li>看电脑45分钟之后，起来走5分钟，眼睛看远方放松一下。</li>
-<li>护眼宝使用。</li>
-</ul>
-<h5 id="2-善于总结"><a href="#2-善于总结" class="headerlink" title="2.善于总结"></a>2.善于总结</h5><ul>
-<li>学完一门知识后要及时复习，做好总结，让知识形成一个体系。假想自己要给别人讲这个知识点，可不可以把这个知识点讲清楚呢?如果不能，说明你对这个知识点还没有彻底了解。这就是费曼学习技巧。</li>
-<li>总结的方式：博客/思维导图/</li>
-</ul>
-<h5 id="3-github"><a href="#3-github" class="headerlink" title="3.github"></a>3.github</h5><p>没事就多转转，能力允许可以参与到一些开源项目中。多看看别人的优秀开源项目，看看别人的代码和设计思路。</p>
-<h5 id="4-实践"><a href="#4-实践" class="headerlink" title="4.实践"></a>4.实践</h5><p>多去实践，将学习到的东西运用到实际项目中。</p>
-<ul>
-<li>在网上找一个符合自己能力与找工作需求的实战项目视频或博客跟着老师一起做。做的过程中，要有自己的思考，对于重要的知识点，要学会自己去往深处学。</li>
-<li>Github或者码云上有很多实战类项目，可以在上面进行改进或增加新功能。</li>
-<li>自己动手去做一个自己想要完成的东西，遇到不会的东西就临时去学，现学现卖。</li>
-</ul>
-<h5 id="5-注意代码规范"><a href="#5-注意代码规范" class="headerlink" title="5.注意代码规范"></a>5.注意代码规范</h5><p>​    有时间看几本关于代码重构优化的书籍。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/27/学习建议/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-练字技巧" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/27/练字技巧/">练字技巧</a>
-    </h1>
-  
-
-        
-        <a href="/2019/06/27/练字技巧/" class="archive-article-date">
-  	<time datetime="2019-06-27T07:53:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h5 id="1-练字工具"><a href="#1-练字工具" class="headerlink" title="1.练字工具"></a>1.练字工具</h5><p>硬笔篇</p>
-<p>一.练字工具</p>
-<p>铅笔——钢笔</p>
-<p>初学者我建议是用铅笔。小学写字之初都采用铅笔练习。因为铅笔可以让你下笔更稳，对于笔力控制很有帮助。等到笔画端正，不歪不扭之后，再转换钢笔。所谓笔力，是从手和腕间发出的灵活自然的力量，只要多练多写，笔力会逐渐增长。</p>
-<p>钢笔确实由于型号牌子的不同对出锋有一定影响。但由于个人使用感受不同，所以我推荐是去文具店直接一支一支试。我自己练字用的是百乐grace F 尖，以前用过英雄100。</p>
-<h5 id="2-执笔方法"><a href="#2-执笔方法" class="headerlink" title="2.执笔方法"></a>2.执笔方法</h5><p><img src="https://pic3.zhimg.com/075ba1da6e5ad0703973cdac553685b6_b.jpg" alt="img"><img src="https://pic3.zhimg.com/80/075ba1da6e5ad0703973cdac553685b6_hd.jpg" alt="img"></p>
-<p>执笔要做到“指实掌虚”，就是下指（拇指和中指）握笔要实，掌心要空，空若蛋形。手指离笔尖太近，执笔角度大，写不好大字。离笔尖太远，写不好小字。拇指包住笔杆，运笔不灵活，大拇指与食指（虚握）轻挨着就好。握笔不要太用力，不然食指前段就是向内撇的。</p>
-<p>然后我要声明，上面说的这些，都是初学者写字练习基本功时遵守的正规法则，等到熟练之后，无论怎么写都能运用自如。初学写字之所以必须讲究执笔，是为了练习掌握这一工具的性能和使用方法。不标准的握笔姿势对字的好坏的影响很小，字不好看是因为练得少。写久了之后，无论怎么执笔都可以。古人谓之“执笔无定法”。</p>
-<h5 id="3-摹与临"><a href="#3-摹与临" class="headerlink" title="3.摹与临"></a>3.摹与临</h5><p>初练字时，手未十分熟练，笔未十分稳定，必须经过一段时间的“摹”写来打基础。就是已能初步掌握书写技巧的人，一本新帖买到后，对它的内容感到陌生，不知道字好在哪里，也必须通过“摹”来掌握帖子的笔法间架精神等。</p>
-<p>1.“摹”的方法是：</p>
-<p>用透明而不透墨的薄纸蒙在字帖上写。但由于现代字帖的纸太薄，所以我最开始时是用的两层纸摹写。达到一种可以依稀看见字的轮廓，但是又不是很清晰，需要花点心思去辨别下一笔应该怎么写的感觉。只蒙一层，如果不是全神贯注，很容易分神，描起字来不加以思考，就不会有什么进步。</p>
-<p>摹字的持续时间，等到笔画不歪歪扭扭了，就尽快结束，然后进入临字阶段。因为摹字并不能让你的字进步，离开了字帖自己的字还是以前那个样子，没有任何提高，你的大脑还没有系统地明白一个字的间架结构组成。</p>
-<p>2.“临”的步骤有：</p>
-<p>a.格临</p>
-<p>取云母片或者薄玻璃片（我选用的方法是买手机的钢化膜），照帖子字的大小画上米字格，把这个玻璃片放在帖子上面，然后在现有的米字格纸上照着样子临写。临写的时候先看清帖字哪一笔在格子的哪一个部位，照着写在现有的米字格纸上。写完之后跟原字对比，同样是观察哪一笔超出了或者还不够的。然后再在米字格纸上格临，反复练习精确到神似为止。</p>
-<p><img src="https://pic2.zhimg.com/9541611b1998cc9ca13211448c517ec1_b.jpg" alt="img"><img src="https://pic2.zhimg.com/80/9541611b1998cc9ca13211448c517ec1_hd.jpg" alt="img"></p>
-<p>b.对临</p>
-<p>此步骤不再用米字格，用白纸或者普通格子进行练习。此时跟格临不同的是，不能看一笔写一笔，必须看一字写一字。在格临的基础上熟悉了字的间架结构，才能进行对临。同样写完之后跟原字对比，反复练习。</p>
-<p><img src="https://pic4.zhimg.com/86be777b256048a86b1650b10d6c8663_b.jpg" alt="img"><img src="https://pic4.zhimg.com/80/86be777b256048a86b1650b10d6c8663_hd.jpg" alt="img"></p>
-<p>c.背临</p>
-<p>把帖子收起，凭记忆默写。一般有两种方法：一种是把一篇帖字全部临完，等临到熟透之后，从头到尾默写出来。一种是随临随默，临熟多少字，就默写多少字。这两种方法都可以用，且可以合起来（先局部默写，再全篇默写），并不特意规范。默写完毕后，跟帖子里的字不一样的地方，要改正重写。一本帖子全部默写完毕之后，并且跟原帖很相像，才能算初步成功。但这样的成功是不巩固的，停止一段时间之后还会生疏，仍须继续临写。直到想起一个字就清楚这个字的间架结构，直到即使字帖里没有这个字，但可以根据以往临的这位书法大家的风格写出相仿的字来，才是小成。</p>
-<p>d.意临</p>
-<p>是对临和背临的提高和升华。意临不求局部点画逼真，要把注意力放在对范帖神韵的整体把握上，形虽不似，神却不离。意临虽不要求与原帖对应部分处处相似，但各种写法都应在原帖有出处，否则就不是临写。此法可逐渐形成自己的书写风格。［但不能为了追求个人风格对之前的步骤轻视。］</p>
-<h5 id="4-字帖选用"><a href="#4-字帖选用" class="headerlink" title="4.字帖选用"></a>4.字帖选用</h5><p>先谈书体。</p>
-<p>前人对练习书法的程序，各有主张。有的认为应由书体起源篆——隶———楷——行——草的演变顺序学习，有的主张先练楷书，再追上篆隶。不过篆隶在今日不会日常使用，所以对不打算深入书法的朋友不考虑。那么就是楷书和行书的书体顺序问题了。</p>
-<p>楷书结构严谨，笔画规范。我认为从基本的端庄开始练起，比较实际。行书与楷书虽然差别不大，但行书笔画的起止转承，抑扬顿挫都是跟楷书一脉相承，没有楷书的基础，行书并不让人感觉清爽。楷书写得行些，就是行书行楷；行书写得草些，就是草书行草。楷书练好了，练行书是很轻易的事情。</p>
-<p>以楷书为主，行书为辅，同时练起。</p>
-<p>书体确定了，现在来谈书派。同是楷书，各派的面貌都不一样。［我建议的是先临摹一两个月现代人的硬笔楷书如《田英章硬笔楷书》作为基础，再选用古帖临字。］选好一位大家之后，就要专心临写，不要见异思迁。比如选定的是欧阳询的《九成宫醴泉铭》，就要按照“摹”“临”的方法，一步步练下去，直到意临。这时欧体的基础已经打得很扎实。如有意继续提高巩固，另开一新帖，则最好从欧体其他的帖子《皇甫君碑》《虞温恭公碑》等，从这些帖中继续巩固学习欧派楷书。然后按照同样的方法学习欧派行书。我认为认准一位大家练习的好处就是，在字帖上没有的字，也能因为长年累月的临某一派，写出相仿的字形来，使整篇文更具有系统观赏性。到这时候，如若写字兴趣越来越浓，则可以学习其他书派的笔法。先攻一家，方可再临百家。</p>
-<p>附上一些精良的字帖和书法大家（部分经典之作如《兰亭序》《胆巴碑》《九成宫碑》《多宝塔碑》等都有自带米字格和分析详解的书，淘宝或者书店都可以买到。）：</p>
-<p>楷书：</p>
-<p>钟绍京《灵飞经》</p>
-<p>赵孟頫《道德经》《胆巴碑》《汲黯传》</p>
-<p>文徵明《落花诗卷》《老子列传》</p>
-<p>王羲之《乐毅论》《黄庭经》</p>
-<p>颜真卿《多宝塔碑》</p>
-<p>欧阳询《九成宫醴泉铭》</p>
-<p>柳公权《神策军碑》《玄秘塔碑》</p>
-<p>王献之《洛神赋》</p>
-<p>行书：</p>
-<p>苏轼《黄州寒食诗帖》</p>
-<p>米芾《蜀素帖》</p>
-<p>陆柬之《文赋》</p>
-<p>赵孟頫《千字文》</p>
-<p>王羲之《兰亭序》</p>
-<h5 id="5-让练字更愉悦的秘诀"><a href="#5-让练字更愉悦的秘诀" class="headerlink" title="5.让练字更愉悦的秘诀"></a>5.让练字更愉悦的秘诀</h5><p>————————————————————</p>
-<p>五.让练字更愉快的秘诀（重点）</p>
-<p>上面的要领都仔细看完之后，算成功了一半~</p>
-<p>书法是最枯燥的艺术，大部分人不能坚持下去。而如果不每日勤加练习，那成效也不大。但每日临帖除非毅力心智非凡辈，也没多少人能做到。</p>
-<p>所以我的秘诀是——集字。</p>
-<p>我除了几本赵孟頫王羲之的帖子之外，还有一些书法类app。app的主要功能就是查找单个字在各大家间的写法。比如你可以开始逐字查找你喜欢的短诗，影响你至深的书籍名，念念不忘的女孩的名字，星火、山川、早春、原野、长古寺的雪、三月樱花十月枫这样美好的几个字~</p>
-<p><img src="https://pic3.zhimg.com/3037bd03c81149ef3df4839798c2e21e_b.jpg" alt="img"><img src="https://pic3.zhimg.com/80/3037bd03c81149ef3df4839798c2e21e_hd.jpg" alt="img"></p>
-<p><img src="https://pic1.zhimg.com/073874f3f2f25e6b07c77d4b5f5c304c_b.jpg" alt="img"><img src="https://pic1.zhimg.com/80/073874f3f2f25e6b07c77d4b5f5c304c_hd.jpg" alt="img"></p>
-<p><img src="https://pic4.zhimg.com/2c0e10a5d3418f677facc52cf7838af7_b.jpg" alt="img"><img src="https://pic4.zhimg.com/80/2c0e10a5d3418f677facc52cf7838af7_hd.jpg" alt="img"></p>
-<p><img src="https://pic2.zhimg.com/be5ff11ce63bab98e9f66a79da203f1d_b.jpg" alt="img"><img src="https://pic2.zhimg.com/80/be5ff11ce63bab98e9f66a79da203f1d_hd.jpg" alt="img"></p>
-<p>这样练起字来，每天都是愉悦的吧lol 保持对练字的兴趣，是最重要的一条秘诀</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/27/练字技巧/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-  
 
 
           </div>
@@ -577,9 +225,9 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
+		isHome: false,
 		isPost: false,
-		isArchive: false,
+		isArchive: true,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
